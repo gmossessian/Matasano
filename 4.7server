@@ -1,0 +1,49 @@
+#!/usr/bin/python
+
+import os
+import subprocess
+from time import sleep
+from flask import Flask, request, Response
+
+app=Flask(__name__)
+key = os.urandom(25).encode('hex')
+
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
+
+HMAC = '/home/gmoss/workspace/Matasano/matasano HMAC'
+
+delay = 0.05
+
+@app.route("/")
+def allOK():
+    return Response(response="", status=200)
+
+@app.route('/test')
+def insecure_compare():
+    try:
+        fileName = request.args.get('file')
+        signature = request.args.get('signature')
+    except:
+        return Response(response = "Wrong parameters given.\n", status=500)
+    try:
+        delay = float(request.args.get('delay'))
+    except:
+        delay = 0.05
+    command = ' '.join([HMAC, key, fileName])
+    realSig = subprocess.check_output(command, shell=True)[0:40]
+    if signature == "ShowMeTheMoney":
+        return Response("Peeking: " + realSig+'\n', status=200)
+    if len(signature)!=len(realSig):
+        return Response(response="", status=500)
+    for i in range(len(realSig)):
+        if realSig[i] != signature[i]:
+            return Response(response="", status=500)
+        sleep(delay)
+    return Response(response="", status=200)
+
+if __name__=='__main__':
+    app.run()
+
