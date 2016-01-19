@@ -87,6 +87,7 @@ void problem29(void);
 void problem30(void);
 void problem31(void);
 void problem32(void);
+void problem33(void);
 
 /*matasanoUtils.c*/
 string AES128EncodeBlock(string in, string key);
@@ -193,3 +194,7 @@ int wait_on_socket(curl_socket_t sockfd, int for_recv, long timeout_ms);		/*4.7.
 pid_t runExternalScript(string command, int *, int *);							/*4.7.c*/
 int killPid(pid_t pid);															/*4.7.c*/
 int longintcompare(const void *a, const void *b);								/*4.7.c*/
+
+/*set5Utils.c*/
+//problem 33
+string DHPublicKey(string a);

@@ -1,63 +1,47 @@
 CC = clang
 
 MAIN = main.c
-UTILS = matasanoUtils.c set1Utils.c set2Utils.c set3Utils.c set4Utils.c
-PROBLEMS = set1.c set2.c set3.c set4.c
-FILES = $(MAIN) $(UTILS) $(PROBLEMS)
- 
-OBJS  = %.o
+UTILS = matasanoUtils.c set1Utils.c set2Utils.c set3Utils.c set4Utils.c set5Utils.c
+PROBLEMS = set1.c set2.c set3.c set4.c set5.c
+HFILES = matasano.h
+CFILES = $(MAIN) $(UTILS) $(PROBLEMS)
 
-AES = ../AES128/
-AESC = aes128.c
-AESH = aes128.h
+AESDIR = ../AES128
+STRINGDIR = ../CStringUtils
+MTRNGDIR = ../MTRNG
+SHA1DIR = ../SHA1
+MD4DIR = ../MD4
 
-STRING = ../CStringUtils/
-STRINGC = CStringUtils.c
-STRINGH = CStringUtils.h
+CFLAGS = -g -Wall -std=c99
+LIBS= -lcurl -lCStringUtils -lMD4 -lAES128 -lMTRNG -lSHA1 -lMD4
+IFLAGS = -I$(STRINGDIR) -I$(AESDIR) -I$(MTRNGDIR) -I$(SHA1DIR) -I$(MD4DIR)
+LFLAGS = -L$(STRINGDIR) -L$(AESDIR) -L$(MTRNGDIR) -L$(SHA1DIR) -L$(MD4DIR)
 
-MTRNG = ../MTRNG/
-MTRNGC = MTRNG.c
-MTRNGH = MTRNG.h
+#OBJS = $(patsubst %.c,%.o,$(FILES) $(AESC) $(MTRNGC))
+build: $(CFILES) $(HFILES) 
+	$(CC) $(CFILES) $(LFLAGS) $(LIBS) $(IFLAGS) $(CFLAGS) -o matasano 
 
-SHA1 = ../SHA1/
-SHA1C = sha1.c
-SHA1H = sha1.h
+#build: AES MTRNG Matasano 
 
-MD4 = ../MD4/
-MD4C = MD4.c
-MD4H = MD4.h
+#CStringUtils: $(STRING)$(STRINGC) $(STRING)$(STRINGH)
+#	$(CC) -c $(STRING)$(STRINGC) 
 
-LIBFILES = $(AES)$(AESC) $(STRING)$(STRINGC) $(MTRNG)$(MTRNGC) $(SHA1)$(SHA1C) $(MD4)$(MD4C)
-DEPS = matasano.h $(AES)$(AESH) $(STRING)$(STRINGH) $(MTRNG)$(MTRNGH) $(SHA1)$(SHA1H) $(MD4)$(MD4H)
+#AES: $(AES)$(AESC) $(AES)$(AESH)
+#	$(CC) -c $(AES)$(AESC)
 
-CFLAGS = -g -Wall
-LIBS=-lm
-IFLAGS = -I$(AES) -I$(STRING) -I$(MTRNG) -I$(SHA1) -I$(MD4)
-LFLAGS = -lcurl
+#MTRNG: $(MTRNG)$(MTRNGC) $(MTRNG)$(MTRNGC)
+#	$(CC) -c $(MTRNG)$(MTRNGC)
 
-OBJS = $(patsubst %.c,%.o,$(FILES) $(STRINGC) $(AESC) $(MTRNGC) $(SHA1C) $(MD4C))
+#SHA1: $(SHA1)$(SHA1C) $(SHA1)$(SHA1H)
+#	$(CC) -c $(SHA1)$(SHA1C) -I$(STRING)
 
-build: CStringUtils AES MTRNG SHA1 MD4 Matasano 
+#MD4: $(MD4)$(MD4C) $(MD4)$(MD4H) 
+#	$(CC) -c $(MD4)$(MD4C) -I$(STRING)
 
-CStringUtils: $(STRING)$(STRINGC) $(STRING)$(STRINGH)
-	$(CC) -c $(STRING)$(STRINGC) 
-
-AES: $(AES)$(AESC) $(AES)$(AESH)
-	$(CC) -c $(AES)$(AESC)
-
-MTRNG: $(MTRNG)$(MTRNGC) $(MTRNG)$(MTRNGC)
-	$(CC) -c $(MTRNG)$(MTRNGC)
-
-SHA1: $(SHA1)$(SHA1C) $(SHA1)$(SHA1H)
-	$(CC) -c $(SHA1)$(SHA1C) -I$(STRING)
-
-MD4: $(MD4)$(MD4C) $(MD4)$(MD4H) 
-	$(CC) -c $(MD4)$(MD4C) -I$(STRING)
-
-Matasano: $(FILES) $(LIBFILES) $(DEPS)
-	$(CC) -c $(IFLAGS) $(FILES) $(CFLAGS) 
-	$(CC) -o matasano $(LFLAGS) $(OBJS)
+#Matasano: $(FILES) $(LIBFILES) $(DEPS)
+#	$(CC) -c $(IFLAGS) $(FILES) $(CFLAGS) 
+#	$(CC) -o matasano $(LFLAGS) $(OBJS)
 
 
 clean: 
-	rm -f $(OBJS)
+	rm -f %.o
