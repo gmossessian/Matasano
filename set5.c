@@ -28,7 +28,6 @@ void problem33(void){
 	//DH_p = charToS(0x25);
 	//DH_p = base16Decode(newString("29bb3920ef5e958b9",0));
 	//DH_p = base16Decode(newString("444291e51b3ea5fd16673e95674b01e7b",0));
-	//DH_p = base16Decode(newString("7fffffffffffffffffffffffffffffff",0));
 	DH_p = base16Decode(newString("fb49eeac4dedd15d82be164ee3b0cbb22f7d79377",0));
 	//my crappy old little laptop isn't powerful enough to do bigger primes than this...
 	//DH_p = base16Decode(newString("6322dee2816b379bfd622fee57862827e9a941e5921f571e5d",0));
