@@ -53,6 +53,8 @@ int main(int argc, char **argv){
 	else if(!strcmp(problem, "4.7") || !strcmp(problem, "31")) problem31();
 	else if(!strcmp(problem, "4.8") || !strcmp(problem, "32")) problem32();
 	else if(!strcmp(problem, "5.1") || !strcmp(problem, "33")) problem33();
+	else if(!strcmp(problem, "5.2") || !strcmp(problem, "34")) problem34();
+	else if(!strcmp(problem, "5.3") || !strcmp(problem, "35")) problem35();
 	else if(!strcmp(problem, "HMAC")){
 		printsint(SHA1HMAC(base16Decode(newString(argv[2],0)), newString(argv[3],0))); //HMAC(key,message);
 		PRINTNL;

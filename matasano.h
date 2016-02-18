@@ -41,6 +41,12 @@ typedef struct keyvalue_t{
 	string encoded;
 }keyvalue_t;
 
+typedef struct person_t{
+	string secret;
+	string publicKey;
+	string privateKey;
+	string sharedKey;
+}person_t;
 
 #define FILE4 "/home/gmoss/workspace/Matasano/1.4.txt"
 #define FILE6 "/home/gmoss/workspace/Matasano/1.6.txt"
@@ -88,6 +94,9 @@ void problem30(void);
 void problem31(void);
 void problem32(void);
 void problem33(void);
+void problem34(void); //Implement a MITM key-fixing attack on Diffie-Hellman with parameter injection
+void problem35(void); //Implement DH with negotiated groups, and break with malicious "g" parameters
+
 
 /*matasanoUtils.c*/
 string AES128EncodeBlock(string in, string key);
@@ -197,4 +206,13 @@ int longintcompare(const void *a, const void *b);								/*4.7.c*/
 
 /*set5Utils.c*/
 //problem 33
-string DHPublicKey(string a);
+void setDH_p(string p);
+void setDH_g(string g);
+string getDH_p(void);
+string getDH_g(void);
+void DHSetKeys(person_t *p);
+void DHSetSharedKey(person_t *A, string publicKey);
+string getPublicKey(person_t p);
+string DHGetEncyptedMessage(person_t A);
+string DHDecryptMessage(person_t A, string message);
+
